@@ -99,7 +99,7 @@ make k8s-airflow
 ### Access the K8S resources
 
 1. [k8s-dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.) for Kubernets cluster monitor
-2. [Airflow](http://localhost:10001) (username:admin, password: admin) for  real time data generation and consumption pipeline.
+2. [Airflow](http://localhost:8080) (username:admin, password: admin) for  real time data generation and consumption pipeline.
 3. [kafka-ui](http://localhost:10000) : monitor kafka cluster status.
 4. [spark-ui](http://localhost:10001) : monitor spark cluster status.s
 5. [Grafani](http://localhost:3000) : Data Visualization
