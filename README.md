@@ -47,7 +47,7 @@
   * Prediction Data Dimension (1, 200, 5)
 * Data Preprocessing:
   * Use MinMaxScaler to make sure each feature has similar scale
-* [Model Structure](./docker-service/airflow/scripts/stock_deep_learning/lstm_model.py):
+* [Model Structure](docker-service/airflow/scripts/stock_deep_learning/lstm_model.py):
   * X->[LSTM * 5]->Linear->Price-Prediction
 * How the Model works:
   * At current timestamp $t$, get latest 200 time sereis data before $t$ in ascending `utc_timestamp` order. Feed the data into deep learning model which will predict the current SPY stock prie at time $t$.
