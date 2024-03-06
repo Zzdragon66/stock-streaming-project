@@ -114,7 +114,7 @@ make k8s-airflow
   * user: cassandra, password:cassandra 
 * Import the dashboard by import [dashboard.json](./k8s/grafana/dashboard.json). Remember to update **data resource** at each panel and change the **time range**
 
-### Uinstall the project
+### Uninstall the project
 
 * At the project root directory, run `make clean`
 
