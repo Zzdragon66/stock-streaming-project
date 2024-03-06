@@ -1,0 +1,12 @@
+apache-airflow-providers-apache-kafka
+apache-airflow-providers-apache-spark
+confluent-kafka
+numpy
+python-dotenv
+pytz
+cassandra-driver
+pandas 
+praw
+torch
+joblib
+scikit-learn
