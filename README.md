@@ -54,7 +54,7 @@
 
 * Due to the limited computational resources on my local machine, the "real-time" prediction lags behind actual time because of the long computation duration required.
 
-## Future Direections
+## Future Directions
 
 1. Deploy the local kubernets to AWS EKS and Use GPU accelerator on cloud
 2. Train a better deep learning model to make prediction more accurate and faster
