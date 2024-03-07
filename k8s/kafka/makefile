@@ -11,3 +11,4 @@ kafka-cluster:
 
 clean-kafka-cluster: 
 	helm delete kafka --namespace kafka-cluster
+	kubectl delete namespace kafka-cluster

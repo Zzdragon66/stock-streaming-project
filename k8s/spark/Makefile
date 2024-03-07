@@ -10,3 +10,4 @@ spark-port-forward:
 
 clean-spark-cluster:
 	helm uninstall spark --namespace spark-cluster
+	kubectl delete namespace spark-cluster

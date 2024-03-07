@@ -1,7 +1,7 @@
 FROM apache/airflow:2.8.1-python3.10
 
 WORKDIR /opt/airflow
-
+ARG ARCH="amd64"
 USER root
 
 # Install OpenJDK 17 (You can change this to install a different version of Java)
@@ -13,7 +13,7 @@ RUN apt-get update && \
 # Switch back to the airflow user
 USER airflow    
 
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-${ARCH}
 # TODO(Allen): Change the JAVA_HOME for AMD64
 
 COPY ./python_requirements.txt ./

@@ -18,7 +18,8 @@ airflow:
 	--set "env[1].name=AIRFLOW_VAR_CLIENT_ID" \
   	--set "env[1].value=${CLIENT_ID}" \
 	--set "env[2].name=AIRFLOW_VAR_CLIENT_SECRET" \
-  	--set "env[2].value=${CLIENT_SECRET}" 
+  	--set "env[2].value=${CLIENT_SECRET}" \
+	--timeout "25m"
 	kubectl port-forward svc/airflow-webserver 8080:8080 --namespace airflow
 
 update-airflow:
@@ -27,3 +28,4 @@ update-airflow:
 
 clean-airflow:
 	helm uninstall airflow --namespace airflow
+	kubectl delete namespace airflow

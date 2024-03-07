@@ -13,3 +13,4 @@ grafana-port-forward:
 
 clean:
 	helm uninstall grafana --namespace grafana-dashboard
+	kubectl delete namespace grafana-dashboard

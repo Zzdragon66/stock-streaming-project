@@ -19,9 +19,10 @@
 3. Apache Spark: batch data processing
 4. Apache Cassandra: NoSQL database to store time series data
 5. Docker + Kubernets: Containerization and Docker Orchestration
-6. Pytorch: Deep learning model 
-7. Grafna: Stream Data visualization
-8. Python: produce streaming data with multithreading
+6. AWS: Amazon Elastic Kubernetes Service(EKS) to run Kubernets on cloud 
+7. Pytorch: Deep learning model 
+8. Grafna: Stream Data visualization
+9. Python: produce streaming data with multithreading
 
 ## Project Design Choice
 
@@ -45,8 +46,6 @@
     * $T=200$ look back two hundred seconds data 
     * $D=5$ the features in the data (price, number of transactions, high price, low price, volumes)
   * Prediction Data Dimension (1, 200, 5)
-* Data Preprocessing:
-  * Use MinMaxScaler to make sure each feature has similar scale
 * Model Structure:
   * X->[LSTM * 5]->Linear->Price-Prediction
 * How the Model works:
@@ -56,8 +55,9 @@
 
 ## Future Directions
 
-1. Deploy the local kubernets to AWS EKS and Use GPU accelerator on cloud
-2. Train a better deep learning model to make prediction more accurate and faster
+1. Use Terraform to initialize cloud infrastructure automatically
+2. Use kubeflow to train deep learning model automatically
+3. Train a better deep learning model to make prediction more accurate and faster
 
 
 ## Installment
@@ -68,11 +68,46 @@
 2. `Docker` is running and `K8S` is running
 3. `Helm` is installed in local computer
 4. `Dockerhub`
-5. Docker builder will build the image for arm architecture, so make sure your computer(e.g Mac M1, M2, M3, ...) is compatible
-6. [Stock API Key](https://polygon.io/)(Not Free)
-7. [Reddit API Key](https://www.reddit.com/prefs/apps)
+5. [Stock API Key](https://polygon.io/)(Not Free)
+6. [Reddit API Key](https://www.reddit.com/prefs/apps)
+7. AWS acccount if you want to deploy on aws
 
-### Build the project:
+### Deploy on Amazon Web Service
+
+1. At project root directory, run `env.py` to generate the environment file under the project root directory
+2. At terminal, run `aws configure` to configure the aws command line
+3. At the [IAM]("https://us-east-1.console.aws.amazon.com/iam"), make sure you have following roles
+   1. eks role
+   2. ec2 role
+4. At [EKS](https://us-west-1.console.aws.amazon.com/eks/home), intialize the cluster 
+5. Initialize the node group with 6 `c3.xlarge` nodes with x86-64 architecture
+6. Add the `Amazon EBS CSI add-on` in the cluster by following the [AWS-Instruction](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html)
+7. At terminal, run `aws eks update-kubeconfig --region <region> --name <cluster_name>`. Make sure the current kubectl context is eks by running `kubectl config get-contexts` on terminal.
+
+#### Build Project(x86-64 archiecture)
+
+```bash
+make k8s-kafka
+make k8s-cassandra
+make k8s-spark
+make k8s-kafka-dashboard
+make k8s-data-dashboard
+make k8s-dashboard
+```
+
+For each command line in the following code snippet, run it in different terminal under root directory:
+
+```bash
+cd k8s/cassandra  && make cassandra-cluster-local-connection
+cd k8s/kafka-dashboard && make kafka-dashboard-port-forward
+cd k8s/spark && make spark-port-forward
+cd k8s/grafana && make grafana-port-forward
+make k8s-airflow-amd64 # This will take ~10-20mins to intall
+```
+### Deploy on premise
+
+
+#### Build the project:
 
 1. At project root directory, run `env.py` to generate the environment file under the project root directory
 2. Run the following command and wait all commands to finish: 
@@ -93,13 +128,13 @@ cd k8s/cassandra  && make cassandra-cluster-local-connection
 cd k8s/kafka-dashboard && make kafka-dashboard-port-forward
 cd k8s/spark && make spark-port-forward
 cd k8s/grafana && make grafana-port-forward
-make k8s-airflow
+make k8s-airflow-arm64 # Change this to make k8s-airflow-amd64 if you are using x86-64 architecture
 ```
 
 ### Access the K8S resources
 
 1. [k8s-dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.) for Kubernets cluster monitor
-2. [Airflow](http://localhost:8080) (username:admin, password: admin) for  real time data generation and consumption pipeline.
+2. [Airflow](http://localhost:10001) (username:admin, password: admin) for  real time data generation and consumption pipeline.
 3. [kafka-ui](http://localhost:10000) : monitor kafka cluster status.
 4. [spark-ui](http://localhost:10001) : monitor spark cluster status.s
 5. [Grafani](http://localhost:3000) : Data Visualization
