@@ -10,7 +10,7 @@
 
 ### Project Structure
 
-![Project Structure](./README_Resources/project-arch.png)
+![Project Structure](./README_Resources/project-architecture.png)
 
 ## Tools
 
