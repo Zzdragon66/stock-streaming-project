@@ -20,7 +20,7 @@ CASS_CLUSTER = Variable.get("CASSANDRA_CLUSTER")
 API_KEY = Variable.get("STOCK_API")
 today = datetime.today().astimezone(pytz.timezone("US/Eastern")).date()
 STOCK_PREDICTION_IMAGE = Variable.get("STOCK_PREDICTION_IMAGE")
-today = datetime(2024, 3, 6).replace(tzinfo = pytz.timezone("US/Eastern")).date() #TODO(Allen) : Remove this 
+#today = datetime(2024, 3, 6).replace(tzinfo = pytz.timezone("US/Eastern")).date()
 TOPIC = f"""{Variable.get("TOPIC")}-{today}"""
 STOCKS = ["AAPL", "MSFT", "NVDA", "AMD", "TSLA", "AMZN", "SPY"]
 

@@ -34,7 +34,7 @@
 * Why Kafka?
   * Kafak serves a stream data handler to feed data into spark and deep learning model
 * Design of kafka
-  * I utilize Python's multi-threading capabilities to simultaneously produce stock data, enhancing the throughput by exploiting parallelism. Consequently, I partition the topic according to the number of stocks, allowing each thread to direct its data into a distinct partition, thereby optimizing the data flow and maximizing efficiency
+  * I initialize multiple k8s operators in airflow, where each k8s operator corresponds to single stock, therefore system can simultaneously produce stock data, enhancing the throughput by exploiting parallelism. Consequently, I partition the topic according to the number of stocks, allowing each thread to direct its data into a distinct partition, thereby optimizing the data flow and maximizing efficiency
 
 ### Cassandra Database Design
 

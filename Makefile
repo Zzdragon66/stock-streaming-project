@@ -71,9 +71,7 @@ k8s-data-dashboard:
 	cd $(K8S_GRAPHANA) && make grafana
 
 
-#TODO(Allen): Change this
-
-k8s-airflow-arm64: #airflow-image-arm64 docker_image #TODO(Allen)
+k8s-airflow-arm64: airflow-image-arm64 docker_image 
 	cd $(K8S_AIR_DIR) && make airflow STOCK_API=$(stock_api) DOCKER_NAME=$(dockerhub_username) \
 		AIRFLOW_IMAGE_NAME=$(AIRFLOW_IMAGE_NAME) \
 		CLIENT_ID=$(reddit_client) \
@@ -82,7 +80,7 @@ k8s-airflow-arm64: #airflow-image-arm64 docker_image #TODO(Allen)
 		REDDIT_NEWS_IMAGE=$(dockerhub_username)/$(REDDIT_GENERATOR_IMAGE_NAME) \
 		STOCK_PREDICTION_IMAGE=$(dockerhub_username)/$(STOCK_PREDICTION_IMAGE_NAME)
 
-k8s-airflow-amd64: #airflow-image-amd64 docker_image #TODO(ALlen)
+k8s-airflow-amd64: airflow-image-amd64 docker_image 
 	cd $(K8S_AIR_DIR) && make airflow STOCK_API=$(stock_api) DOCKER_NAME=$(dockerhub_username) \
 		AIRFLOW_IMAGE_NAME=$(AIRFLOW_IMAGE_NAME) \
 		CLIENT_ID=$(reddit_client) \
@@ -91,7 +89,7 @@ k8s-airflow-amd64: #airflow-image-amd64 docker_image #TODO(ALlen)
 		REDDIT_NEWS_IMAGE=$(dockerhub_username)/$(REDDIT_GENERATOR_IMAGE_NAME) \
 		STOCK_PREDICTION_IMAGE=$(dockerhub_username)/$(STOCK_PREDICTION_IMAGE_NAME)
 
-k8s-airflow-update-arm64: airflow-image-arm64 #docker_image #TODO(ALlen)
+k8s-airflow-update-arm64: airflow-image-arm64 docker_image
 	cd $(K8S_AIR_DIR) && make update-airflow STOCK_API=$(stock_api) DOCKER_NAME=$(dockerhub_username) \
 		AIRFLOW_IMAGE_NAME=$(AIRFLOW_IMAGE_NAME) \
 		CLIENT_ID=$(reddit_client) \
@@ -100,7 +98,7 @@ k8s-airflow-update-arm64: airflow-image-arm64 #docker_image #TODO(ALlen)
 		REDDIT_NEWS_IMAGE=$(dockerhub_username)/$(REDDIT_GENERATOR_IMAGE_NAME) \
 		STOCK_PREDICTION_IMAGE=$(dockerhub_username)/$(STOCK_PREDICTION_IMAGE_NAME)
 
-k8s-airflow-update-amd64: #airflow-image-amd64 docker_image #TODO(ALlen)
+k8s-airflow-update-amd64: airflow-image-amd64 docker_image 
 	cd $(K8S_AIR_DIR) && make update-airflow STOCK_API=$(stock_api) DOCKER_NAME=$(dockerhub_username) \
 		AIRFLOW_IMAGE_NAME=$(AIRFLOW_IMAGE_NAME) \
 		CLIENT_ID=$(reddit_client) \

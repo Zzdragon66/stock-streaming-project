@@ -34,7 +34,6 @@ def get_reddit_api():
     }
 
 def main():
-    #TODO(Allen): Add the reddit client id and secret
     env_write_dict = {}
     env_write_dict.update(get_dockerhub())
     env_write_dict.update(get_api_key())
