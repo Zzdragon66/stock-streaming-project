@@ -1,0 +1,3 @@
+confluent-kafka
+pytz
+requests

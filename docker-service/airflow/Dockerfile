@@ -10,11 +10,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Switch back to the airflow user
 USER airflow    
 
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-${ARCH}
-# TODO(Allen): Change the JAVA_HOME for AMD64
 
 COPY ./python_requirements.txt ./
 

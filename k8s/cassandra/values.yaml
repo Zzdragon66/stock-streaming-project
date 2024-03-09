@@ -201,7 +201,7 @@ extraEnvVarsSecret: ""
 
 ## @param replicaCount Number of Cassandra replicas
 ##
-replicaCount: 2
+replicaCount: 1
 ## @param updateStrategy.type updateStrategy for Cassandra statefulset
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
 ##

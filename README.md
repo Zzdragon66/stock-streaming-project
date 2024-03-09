@@ -15,15 +15,18 @@
 ## Tools
 
 1. Apache Airflow: Data pipeline orchestration
+   1. Kubernets/Bash/Python operator
+   2. Variables
 2. Apache Kafka: Stream data handling
+   1. Topic, partition, producer, consumer
 3. Apache Spark: batch data processing
+   1. Structured streaming
 4. Apache Cassandra: NoSQL database to store time series data
 5. Docker + Kubernets: Containerization and Docker Orchestration
 6. AWS: Amazon Elastic Kubernetes Service(EKS) to run Kubernets on cloud 
 7. Pytorch: Deep learning model 
 8. Grafna: Stream Data visualization
-9. Python: produce streaming data with multithreading
-
+ 
 ## Project Design Choice
 
 ### Kafka 

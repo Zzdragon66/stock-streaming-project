@@ -1,0 +1,5 @@
+praw
+pandas 
+numpy
+confluent-kafka
+cassandra-driver

@@ -40,6 +40,8 @@ class SingleStockGenerator():
             retry_cnt += 1
             if retry_cnt == 3:
                 raise requests.exceptions.RequestException("URL did not work")
+        if (json.loads(response.text)["resultsCount"]) == 0:
+            return
         results = (json.loads(response.text)["results"])
         sorted_results = sorted(results, key=lambda x: x['t'])
         for sorted_result in sorted_results:

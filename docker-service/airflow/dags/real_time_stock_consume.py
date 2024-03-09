@@ -8,13 +8,9 @@ from airflow import DAG
 from airflow.models import Connection, Variable
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
+from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 import sys
 import json
-
-# Add the script into the path
-sys.path.append("/opt/airflow/scripts/")
-from stock_deep_learning.lstm_prediction import stock_prediction
-
 
 start_date = datetime(2024, 2, 28, 10, 30, tzinfo=ZoneInfo("America/Los_Angeles"))
 KAFKA_PRODUCER_SERVER = Variable.get("KAFKA_PRODUCER_SERVERS")
@@ -23,7 +19,8 @@ SPARK_CLUSTER = Variable.get("SPARK_CLUSTER")
 CASS_CLUSTER = Variable.get("CASSANDRA_CLUSTER")
 API_KEY = Variable.get("STOCK_API")
 today = datetime.today().astimezone(pytz.timezone("US/Eastern")).date()
-#today = datetime(2024, 3, 6).astimezone(pytz.timezone("US/Eastern")).date() 
+STOCK_PREDICTION_IMAGE = Variable.get("STOCK_PREDICTION_IMAGE")
+today = datetime(2024, 3, 6).replace(tzinfo = pytz.timezone("US/Eastern")).date() #TODO(Allen) : Remove this 
 TOPIC = f"""{Variable.get("TOPIC")}-{today}"""
 STOCKS = ["AAPL", "MSFT", "NVDA", "AMD", "TSLA", "AMZN", "SPY"]
 
@@ -49,16 +46,22 @@ with DAG(
             --cassandra_pwd cassandra \
         """
     )
-    predict_stock = PythonOperator(
-        task_id = "PredictStock",
-        python_callable = stock_prediction,
-        op_kwargs = {
-            "cassandra_cluster" : CASS_CLUSTER,
-            "kafka_cluster" : KAFKA_CONSUMER_SERVER,
-            "topic_name" : TOPIC,
-            "partition" : len(STOCKS) - 1
-        } 
-    )
-
+    predict_stock = KubernetesPodOperator(
+            namespace='airflow',
+            image= STOCK_PREDICTION_IMAGE + ":latest", 
+            cmds=['python3', 'lstm_prediction.py'],
+            arguments=[
+                '--cassandra_cluster', CASS_CLUSTER,
+                '--kafka_cluster', KAFKA_CONSUMER_SERVER,
+                '--topic_name', TOPIC,
+                '--partition', str(len(STOCKS) - 1)
+            ],
+            name=f'predict_stock-{today}',
+            task_id=f'predict_stock-{today}',
+            get_logs=True,
+            in_cluster = True,
+            is_delete_operator_pod=True,
+            image_pull_policy='Always'
+        )
     consume_data
     predict_stock

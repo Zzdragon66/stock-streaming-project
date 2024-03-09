@@ -12,9 +12,6 @@ from confluent_kafka import Consumer, TopicPartition
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 import sys
-CUR_DIR = "/opt/airflow/scripts/stock_deep_learning/"
-#CUR_DIR = "./"
-sys.path.append(CUR_DIR)
 from lstm_model import LSTMModel
 
 
@@ -43,8 +40,8 @@ def load_lstm_model(model_path="lstm_model_weights.pth"):
     """
     model = LSTMModel(input_dim=5, hidden_dim=200, num_layers=5, output_dim=1)
     model = model.to(DEVICE)
-    print(f"{CUR_DIR}{model_path}")
-    model.load_state_dict(torch.load(f"{CUR_DIR}{model_path}", map_location=DEVICE))
+    print(model_path)
+    model.load_state_dict(torch.load(model_path, map_location=DEVICE))
     model.eval()
     return model
 
@@ -102,13 +99,12 @@ def generate_prediction(consumer, cass_cluster):
     Input:
         rows: 
     """
-    scalar = joblib.load(f'{CUR_DIR}scaler.save')
+    scalar = joblib.load('scaler.save')
     # load the model
     model = load_lstm_model()
     messages = []
     rows = []
     if_fst_200 = True
-    timeout_cnt = 0
     while True:
         msg = consumer.poll(1.0)  # Poll for a message
         if msg is None:
@@ -165,9 +161,9 @@ def main():
     parser.add_argument("--cassandra_cluster", type=str, required=True)
     parser.add_argument("--kafka_cluster", type=str, required=True)
     parser.add_argument("--topic_name", type=str, required=True)
-    parser.add_argument("--partition", type=int, required=True)
+    parser.add_argument("--partition", type=str, required=True)
     args = parser.parse_args()
-    stock_prediction(args.cassandra_cluster, args.kafka_cluster, args.topic_name, args.partition)
+    stock_prediction(args.cassandra_cluster, args.kafka_cluster, args.topic_name, int(args.partition))
  
 if __name__ == "__main__":
     main()

@@ -271,12 +271,18 @@ allowPodLaunching: true
 
 # Environment variables for all airflow containers
 env:
-  - name: "AIRFLOW_VAR_STOCK_API"
+  - name: "AIRFLOW_VAR_STOCK_API" # 0
     value : "API_KEY"
-  - name : "AIRFLOW_VAR_CLIENT_ID"
+  - name : "AIRFLOW_VAR_CLIENT_ID" # 1
     value : "CLIENT_ID"
-  - name : "AIRFLOW_VAR_CLIENT_SECRET"
+  - name : "AIRFLOW_VAR_CLIENT_SECRET" # 2
     value : "CLIENT_SECRET"
+  - name : "AIRFLOW_VAR_STOCK_GENERATOR_IMAGE" # 3
+    value : "STOCK_GENERATOR"
+  - name : "AIRFLOW_VAR_REDDIT_NEWS_IMAGE" # 4
+    value : "REDDIT_NEWS"
+  - name : "AIRFLOW_VAR_STOCK_PREDICTION_IMAGE" # 5
+    value : "STOCK_PREDICTION"
   - name: "AIRFLOW_VAR_KAFKA_PRODUCER_SERVERS"
     value: "kafka-controller-0.kafka-controller-headless.kafka-cluster.svc.cluster.local:9092,kafka-controller-1.kafka-controller-headless.kafka-cluster.svc.cluster.local:9092,kafka-controller-2.kafka-controller-headless.kafka-cluster.svc.cluster.local:9092"
   - name: "AIRFLOW_VAR_KAFKA_CONSUMER_SERVERS"
@@ -504,7 +510,7 @@ kerberos:
 # Airflow Worker Config
 workers:
   # Number of airflow celery workers in StatefulSet
-  replicas: 6
+  replicas: 2
   # Max number of old replicasets to retain
   revisionHistoryLimit: ~
 
