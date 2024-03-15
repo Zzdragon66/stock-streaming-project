@@ -14,7 +14,7 @@ import pytz
 sys.path.append("/opt/airflow/scripts/")
 from kafka_topic_creation import create_kafka_topic
 
-start_date = datetime(2024, 2, 28, 10, 30, tzinfo=ZoneInfo("America/Los_Angeles"))
+start_date = datetime(2024, 3, 15, 10, 30, tzinfo=ZoneInfo("America/Los_Angeles"))
 KAFKA_PRODUCER_SERVER = Variable.get("KAFKA_PRODUCER_SERVERS")
 KAFKA_CONSUMER_SERVER = Variable.get("KAFKA_CONSUMER_SERVERS")
 REDDIT_CLIENT = Variable.get("CLIENT_ID")

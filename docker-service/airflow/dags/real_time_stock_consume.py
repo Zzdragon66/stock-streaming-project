@@ -12,7 +12,7 @@ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import Kubernete
 import sys
 import json
 
-start_date = datetime(2024, 2, 28, 10, 30, tzinfo=ZoneInfo("America/Los_Angeles"))
+start_date = datetime(2024, 3, 15, 10, 30, tzinfo=ZoneInfo("America/Los_Angeles"))
 KAFKA_PRODUCER_SERVER = Variable.get("KAFKA_PRODUCER_SERVERS")
 KAFKA_CONSUMER_SERVER = Variable.get("KAFKA_CONSUMER_SERVERS")
 SPARK_CLUSTER = Variable.get("SPARK_CLUSTER")
@@ -49,7 +49,7 @@ with DAG(
     predict_stock = KubernetesPodOperator(
             namespace='airflow',
             image= STOCK_PREDICTION_IMAGE + ":latest", 
-            cmds=['python3', 'lstm_prediction.py'],
+            cmds=['python3', 'stock_prediction_main.py'],
             arguments=[
                 '--cassandra_cluster', CASS_CLUSTER,
                 '--kafka_cluster', KAFKA_CONSUMER_SERVER,
