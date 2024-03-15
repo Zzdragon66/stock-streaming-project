@@ -164,27 +164,38 @@ make k8s-airflow-arm64 # Change this to make k8s-airflow-amd64 if you are using 
 ├── README.md
 ├── README_Resources
 │   ├── demo.gif
-│   └── project-arch.png
+│   └── project-architecture.png
 ├── docker-service
-│   └── airflow
+│   ├── airflow
+│   │   ├── Dockerfile
+│   │   ├── dags
+│   │   │   ├── real_time_stock_consume.py
+│   │   │   └── real_time_stock_data_generation.py
+│   │   ├── python_requirements.txt
+│   │   └── scripts
+│   │       ├── cassandra_table_creation.py
+│   │       ├── kafka_topic_creation.py
+│   │       └── spark
+│   │           └── spark_stream_processing.py
+│   ├── python_reddit
+│   │   ├── Dockerfile
+│   │   ├── python_requirements.txt
+│   │   └── reddit-producer.py
+│   ├── python_stock
+│   │   ├── Dockerfile
+│   │   ├── python_requirements.txt
+│   │   └── stock_data_generation
+│   │       ├── single_stock_generator.py
+│   │       ├── stock_generation_script.py
+│   │       └── stock_generator.py
+│   └── python_stock_prediction
 │       ├── Dockerfile
-│       ├── dags
-│       │   ├── real_time_stock_consume.py
-│       │   └── real_time_stock_data_generation.py
-│       ├── python_requirements.txt
-│       └── scripts
-│           ├── cassandra_table_creation.py
-│           ├── reddit-producer.py
-│           ├── spark
-│           │   └── spark_stream_processing.py
-│           ├── stock_data_generation
-│           │   ├── single_stock_generator.py
-│           │   └── stock_generator.py
-│           └── stock_deep_learning
-│               ├── lstm_model.py
-│               ├── lstm_model_weights.pth
-│               ├── lstm_prediction.py
-│               └── scaler.save
+│       ├── lstm_model
+│       │   ├── lstm_model.py
+│       │   ├── lstm_model_weights.pth
+│       │   ├── lstm_prediction.py
+│       │   └── scaler.save
+│       └── python_requirements.txt
 ├── env.py
 └── k8s
     ├── airflow
